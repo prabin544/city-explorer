@@ -1,6 +1,6 @@
 # City Explorer
 
-**Author**: Prabin Singh
+**Author**: Prabin Singh  
 **Version**: 1.0.0
 
 ## Overview

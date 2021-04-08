@@ -19,4 +19,14 @@ This is Node JS app, which is making API call to LocationIQ server to pull map d
 
 ## Credit and Collaborations
 -Michelle  
--Don
+-Don  
+
+Name of feature: ________________________________
+
+Estimate of time needed to complete: 6 hrs
+
+Start time: _____
+
+Finish time: _____
+
+Actual time needed to complete: 4 hrs

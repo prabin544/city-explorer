@@ -24,7 +24,7 @@ class SearchForm extends React.Component{
                     <Form.Control type="text" placeholder="City Name" ref={this.textInput} />
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Submit
+                    Explore
                 </Button>
             </Form>
         )

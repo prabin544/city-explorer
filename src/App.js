@@ -12,7 +12,8 @@ class App extends React.Component{
     this.state={
       citySearchedFor: '',
       lat: '',
-      lon: ''
+      lon: '',
+      statusCode: ''
     };
   }
 
@@ -26,16 +27,20 @@ class App extends React.Component{
       citySearchedFor: locationResponseData.data[0].display_name,
       lat: locationResponseData.data[0].lat,
       lon: locationResponseData.data[0].lon,
+      statusCode: locationResponseData.status,
     });
   }
 
   render (){
+    
     return (
-      <Container>
-        <SearchForm handleSearch={this.handleSearch}/>
-        <h4>{this.state.citySearchedFor}</h4>
-        <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.lat},${this.state.lon}&zoom=10`} alt="map of city" />
-      </Container>
+
+        <Container>
+          <SearchForm handleSearch={this.handleSearch}/>
+          <h4>{this.state.citySearchedFor}</h4>
+          <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.lat},${this.state.lon}&zoom=10`} alt="map of city" />
+        </Container>
+
     )
   }
 } 

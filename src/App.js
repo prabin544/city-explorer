@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Errorpage from './components/ErrorPage'
 import Container from 'react-bootstrap/Container';
 import SearchForm from './components/SearchForm';
 import axios from 'axios'
@@ -13,34 +14,55 @@ class App extends React.Component{
       citySearchedFor: '',
       lat: '',
       lon: '',
-      statusCode: ''
+      data: {}
     };
   }
 
   handleSearch = async(citySearchedFor) => {
     console.log(citySearchedFor);
 
-    // make request to LocationIQ
-    let locationResponseData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${citySearchedFor}&format=json`);
-    console.log(locationResponseData);
-    this.setState({
-      citySearchedFor: locationResponseData.data[0].display_name,
-      lat: locationResponseData.data[0].lat,
-      lon: locationResponseData.data[0].lon,
-      statusCode: locationResponseData.status,
-    });
+    try{
+      let locationResponseData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${citySearchedFor}&format=json`);
+      this.setState({
+        citySearchedFor: locationResponseData.data[0].display_name,
+        lat: locationResponseData.data[0].lat,
+        lon: locationResponseData.data[0].lon,
+      });
+      let forecastData = await axios.get('http://localhost:3001/weather');
+      console.log(forecastData);
+      this.setState({
+        data: forecastData.data
+      });
+    } catch(err){
+      console.log(err);
+      this.setState({error: err.message})
+    }
+    
   }
+  // handleButtonClick = async () => {
+  //   let forecastData = await axios.get('http://localhost:3001/weather');
+  //   console.log(forecastData);
+  //   this.setState({
+  //     data: forecastData.data
+  //   });
+  // }
 
   render (){
     
     return (
-
         <Container>
-          <SearchForm handleSearch={this.handleSearch}/>
-          <h4>{this.state.citySearchedFor}</h4>
-          <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.lat},${this.state.lon}&zoom=10`} alt="map of city" />
+          {this.state.error ? <Errorpage error={this.state.error} /> : 
+          (
+            <>
+            <SearchForm handleSearch={this.handleSearch}/>
+            <h4>{this.state.citySearchedFor}</h4>
+            <h6>lat: {this.state.lat}</h6>
+            <h6>lot: {this.state.lon}</h6>
+            <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.lat},${this.state.lon}&zoom=10`} alt="map of city" />
+            </>
+          )  
+        }
         </Container>
-
     )
   }
 } 

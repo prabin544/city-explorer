@@ -18,7 +18,7 @@ class SearchForm extends React.Component{
 
     render(){
         return(
-            <Form onSubmit={this.getInput}>
+            <Form onSubmit={this.getInput} >
                 <Form.Group >
                     <Form.Label>Search for City</Form.Label>
                     <Form.Control type="text" placeholder="City Name" ref={this.textInput} />

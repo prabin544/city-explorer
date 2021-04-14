@@ -1,6 +1,7 @@
 import React from 'react'
 
-import Errorpage from './components/ErrorPage'
+import Errorpage from './components/ErrorPage';
+import Weather from './components/Weather'
 import Container from 'react-bootstrap/Container';
 import SearchForm from './components/SearchForm';
 import axios from 'axios'
@@ -14,7 +15,7 @@ class App extends React.Component{
       citySearchedFor: '',
       lat: '',
       lon: '',
-      data: {}
+      weatherData: []
     };
   }
 
@@ -28,37 +29,37 @@ class App extends React.Component{
         lat: locationResponseData.data[0].lat,
         lon: locationResponseData.data[0].lon,
       });
-      let forecastData = await axios.get('http://localhost:3001/weather');
-      console.log(forecastData);
-      this.setState({
-        data: forecastData.data
-      });
+      this.getWeatherData()
+      
     } catch(err){
       console.log(err);
       this.setState({error: err.message})
     }
     
   }
-  // handleButtonClick = async () => {
-  //   let forecastData = await axios.get('http://localhost:3001/weather');
-  //   console.log(forecastData);
-  //   this.setState({
-  //     data: forecastData.data
-  //   });
-  // }
+
+  getWeatherData = async() =>{
+    let weatherData = await axios.get('http://localhost:3002/weather');
+    console.log(weatherData);
+    this.setState({
+      weatherData: weatherData.data
+    });
+  }
 
   render (){
-    
+    console.log(this.state.weatherData)
     return (
+
         <Container>
           {this.state.error ? <Errorpage error={this.state.error} /> : 
           (
             <>
             <SearchForm handleSearch={this.handleSearch}/>
             <h4>{this.state.citySearchedFor}</h4>
-            <h6>lat: {this.state.lat}</h6>
-            <h6>lot: {this.state.lon}</h6>
+            <h6>{this.state.lat}</h6>
+            <h6>{this.state.lon}</h6>
             <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.lat},${this.state.lon}&zoom=10`} alt="map of city" />
+            <Weather weatherData={this.state.weatherData}/>
             </>
           )  
         }

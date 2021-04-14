@@ -15,10 +15,8 @@ class Errorpage extends React.Component{
                 position: 'absolute', left: '50%', top: '50%',
                 transform: 'translate(-50%, -50%)'
             }}>
-                <Jumbotron style={{ backgroundImage: `url(${error})`,
-                    backgroundSize: 'cover',
-                    }}>
-                    <img src={error} alt="Responsive image"  />
+                <Jumbotron>
+                    <img src={error} alt="Responsive img"  />
                 </Jumbotron>
                 <Row>
                     <Col md={{ span: 6, offset: 3 }}>
@@ -28,10 +26,6 @@ class Errorpage extends React.Component{
                         <Spinner animation="border" variant="danger"  />
                         <Spinner animation="border" variant="danger"  />
                         <Spinner animation="border" variant="danger"  />
-                        <Spinner animation="border" variant="danger" animation="grow" size="lg" />
-                        <Spinner animation="border" variant="danger" animation="grow" size="lg" />
-                        <Spinner animation="border" variant="danger" animation="grow" size="lg" />
-                        <Spinner animation="border" variant="danger" animation="grow" size="lg" />
                         <h4>Seems like you encountered Error 🤔🤔🤔</h4>
                         <h4>{this.props.error} 🤔🤔🤔</h4>
                     </Col>

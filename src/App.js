@@ -15,7 +15,8 @@ class App extends React.Component{
       citySearchedFor: '',
       lat: '',
       lon: '',
-      weatherData: []
+      weatherData: [],
+      movieData: [],
     };
   }
 
@@ -23,13 +24,15 @@ class App extends React.Component{
     console.log(citySearchedFor);
 
     try{
-      let locationResponseData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=pk.361a189ca163d3805d8ac778efeb4803&q=${citySearchedFor}&format=json`);
+      let locationResponseData = await axios.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${citySearchedFor}&format=json`);
+      console.log(locationResponseData)
       this.setState({
         citySearchedFor: locationResponseData.data[0].display_name,
         lat: locationResponseData.data[0].lat,
         lon: locationResponseData.data[0].lon,
       });
       this.getWeatherData()
+      this.getMovieData()
       
     } catch(err){
       console.log(err);
@@ -58,8 +61,26 @@ class App extends React.Component{
     
   }
 
+  getMovieData = async() =>{
+    try{
+       //let weatherData = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/weather`);
+      let movieData = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/movies`,{
+        params:{
+          citySearchedFor: this.state.citySearchedFor.replace(/\W.*/,''),
+        }
+      });
+      console.log(movieData);
+      this.setState({
+        movieData: movieData.data
+      });
+    } catch(err){
+      console.log(err.message);
+      this.setState({error: err.message})
+    }
+    
+  }
+
   render (){
-    console.log(this.state.weatherData)
     return (
 
         <Container>
@@ -71,7 +92,7 @@ class App extends React.Component{
             <h6>{this.state.lat}</h6>
             <h6>{this.state.lon}</h6>
             <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.lat},${this.state.lon}&zoom=10`} alt="map of city" />
-            <Weather weatherData={this.state.weatherData}/>
+            <Weather weatherData={this.state.weatherData} movieData={this.state.movieData}/>
             </>
           )  
         }

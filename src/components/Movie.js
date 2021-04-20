@@ -1,7 +1,5 @@
 import React from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
-import CardColumns from 'react-bootstrap/CardColumns';
 
 class Movie extends React.Component{
 

@@ -1,5 +1,8 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Card from 'react-bootstrap/Card';
+import CardColumns from 'react-bootstrap/CardColumns';
+import Movie from './Movie';
 
 class Weather extends React.Component{
 
@@ -10,14 +13,27 @@ class Weather extends React.Component{
         let allWeatherListGroups = this.props.weatherData.map((day,index)=>(
             <ListGroup.Item key={index}>{`${day.date}: ${day.description}`}</ListGroup.Item>
         ))
-        let allMovieListGroups = this.props.movieData.map((movie,index)=>(
-            <ListGroup.Item key={index}>{movie.title}</ListGroup.Item>
-        ))
+        let allMovie = this.props.movieData
         return(
             <>
-            <ListGroup>{allWeatherListGroups}</ListGroup>
-            <ListGroup>{allMovieListGroups}</ListGroup>
+                <ListGroup>{allWeatherListGroups}</ListGroup>
+                <CardColumns>
+                    {allMovie.map((movie, index) => {
+                        return (
+                            <Movie
+                                title={movie.title}
+                                overview={movie.overview}
+                                average_votes={movie.average_votes}
+                                total_votes={movie.total_votes}
+                                image_url={movie.image_url}
+                                popularity={movie.popularity}
+                                released_on={movie.released_on}
+                            />
+                        );
+                    })}
+                </CardColumns>
             </>
+
         )
     }
 }

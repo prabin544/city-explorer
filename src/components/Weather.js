@@ -2,6 +2,7 @@ import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import CardColumns from 'react-bootstrap/CardColumns';
 import Movie from './Movie';
+import WeatherDay from './WeatherDay';
 
 class Weather extends React.Component{
 
@@ -10,7 +11,8 @@ class Weather extends React.Component{
         console.log(this.props.movieData)
 
         let allWeatherListGroups = this.props.weatherData.map((day,index)=>(
-            <ListGroup.Item key={index}>{`${day.date}: ${day.description}`}</ListGroup.Item>
+            // <ListGroup.Item key={index}>{`${day.date}: ${day.description}`}</ListGroup.Item>
+            <WeatherDay key={index} day={day}/>
         ))
         let allMovie = this.props.movieData
         return(
